@@ -5,26 +5,19 @@ on:
     branches: [master]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  test-and-deploy:
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: List files
-        run: ls -l
-
-  deploy:
-    runs-on: self-hosted #Laptop
-    needs: build
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Deploy HTML/JS
-        run: |
-          echo "Deploying files to local server folder..."
-          copy index.html C:\Users\device1\Desktop\DeploymentFolder
-          copy script.js C:\Users\device1\Desktop\DeploymentFolder
+        
+      - name: Install Dependencies
+        run: npm install
+        
+      - name: Run Tests
+        run: npm test
+        
+      - name: Deploy
+        if: success()
+        run: xcopy . "C:\Users\device1\Desktop\DeploymentFolder" /E /H /Y
