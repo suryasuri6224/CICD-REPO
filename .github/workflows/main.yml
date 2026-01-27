@@ -1,18 +1,30 @@
-name: CI for Registration Page
+name: CI/CD Pipeline
 
-# Trigger workflow on push or pull request to main branch
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
-    runs-on: ubuntu-latest # GitHub uses Ubuntu by default; you don't need Ubuntu locally
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: List project files
-        run: ls -la
+      - name: List files
+        run: ls -l
+
+  deploy:
+    runs-on: self-hosted  #laptop
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy HTML/JS
+        run: |
+          echo "Deploying files to local server folder..."
+          copy index.html C:\Users\device1\Desktop\DeploymentFolder
+          copy script.js C:\Users\device1\Desktop\DeploymentFolder
