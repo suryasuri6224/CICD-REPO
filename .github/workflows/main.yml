@@ -16,7 +16,7 @@ jobs:
         run: ls -l
 
   deploy:
-    runs-on: self-hosted  # Your laptop
+    runs-on: self-hosted 
     needs: build
 
     steps:
@@ -26,5 +26,5 @@ jobs:
       - name: Deploy HTML/JS
         run: |
           echo "Deploying files to local server folder..."
-          copy index.html C:\DeploymentFolder\
-          copy script.js C:\DeploymentFolder\
+          copy index.html C:\Users\device1\Desktop\DeploymentFolder
+          copy script.js C:\Users\device1\Desktop\DeploymentFolder
