@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI CD Pipeline
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
         run: ls -l
 
   deploy:
-    runs-on: self-hosted  #laptop
+    runs-on: self-hosted
     needs: build
 
     steps:
