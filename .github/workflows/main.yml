@@ -1,0 +1,18 @@
+name: CI for Registration Page
+
+# Trigger workflow on push or pull request to main branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # GitHub uses Ubuntu by default; you don't need Ubuntu locally
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: List project files
+        run: ls -la
