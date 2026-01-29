@@ -1,0 +1,17 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Deploy to local PC
+        run: |
+          xcopy . "C:\Users\device1\Desktop\DeploymentFolder" /E /H /Y
