@@ -1,23 +1,41 @@
-name: CI/CD Pipeline
+name: Test and Merge Feature Branch
 
+# Trigger workflow when you push to any feature branch
 on:
   push:
-    branches: [master]
+    branches:
+      - 'feature/*'
 
 jobs:
-  test-and-deploy:
+  test-and-merge:
     runs-on: self-hosted
 
     steps:
+      # 1️⃣ Checkout your code
       - name: Checkout code
         uses: actions/checkout@v3
-        
-      - name: Install Dependencies
+
+      # 2️⃣ Set up Node.js (required for npm and Jest)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'   # or the version you need
+
+      # 3️⃣ Install dependencies
+      - name: Install dependencies
         run: npm install
-        
-      - name: Run Tests
+
+      # 4️⃣ Run tests
+      - name: Run tests
         run: npm test
-        
-      - name: Deploy
-        if: success()
-        run: xcopy . "C:\Users\device1\Desktop\DeploymentFolder" /E /H /Y
+
+      # 5️⃣ Merge to main if tests pass
+      - name: Merge feature branch into master
+        if: success()   # Only run if previous steps succeeded
+        run: |
+          git config --global user.name "suryasuri6224"
+          git config --global user.email "suryaprakashaluri@gmail.com"
+          git checkout master
+          git pull origin master
+          git merge $GITHUB_REF --no-ff -m "Automated merge from $GITHUB_REF"
+          git push origin master
